@@ -1,0 +1,26 @@
+name: greptime
+base: core22 
+version: '0.8.1' 
+summary: Snapped GreptimeDB, mainly for use in charmed GreptimeDB.
+description: |
+    GreptimeDB is an open-source time-series database focusing on efficiency, scalability, and analytical capabilities. It's designed to work on infrastructure of the cloud era, and users benefit from its elasticity and commodity storage.
+
+website: https://github.com/nvinuesa/charmed-greptimedb-snap
+contact: https://github.com/nvinuesa/charmed-greptimedb-snap/issues/new
+issues: https://github.com/nvinuesa/charmed-greptimedb-snap/issues/new
+
+grade: devel 
+confinement: strict
+
+parts:
+  greptime:
+    plugin: dump
+    source: 
+      - on amd64: https://github.com/greptimeteam/greptimedb/releases/download/v0.8.1/greptime-linux-amd64-v0.8.1.tar.gz
+      - on arm64: https://github.com/greptimeteam/greptimedb/releases/download/v0.8.1/greptime-linux-arm64-v0.8.1.tar.gz
+
+apps:
+  greptime-standalone:
+    daemon: simple
+    command: greptime standalone start --http-addr 0.0.0.0:4000 --rpc-addr 0.0.0.0:4001 --mysql-addr 0.0.0.0:4002 --postgres-addr 0.0.0.0:4003
+    plugs: [network, network-bind]
