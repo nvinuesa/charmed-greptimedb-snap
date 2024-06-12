@@ -1,4 +1,4 @@
-name: greptime
+name: greptimedb
 base: core22 
 version: '0.8.1' 
 summary: Snapped GreptimeDB, mainly for use in charmed GreptimeDB.
@@ -18,9 +18,16 @@ parts:
     source: 
       - on amd64: https://github.com/greptimeteam/greptimedb/releases/download/v0.8.1/greptime-linux-amd64-v0.8.1.tar.gz
       - on arm64: https://github.com/greptimeteam/greptimedb/releases/download/v0.8.1/greptime-linux-arm64-v0.8.1.tar.gz
+  gtctl:
+    plugin: dump
+    source: 
+      - on amd64: https://github.com/greptimeteam/gtctl/releases/download/v0.1.0-beta.10/gtctl-linux-amd64.tgz
+      - on arm64: https://github.com/greptimeteam/gtctl/releases/download/v0.1.0-beta.10/gtctl-linux-arm64.tgz
 
 apps:
   greptime-standalone:
     daemon: simple
     command: greptime standalone start --http-addr 0.0.0.0:4000 --rpc-addr 0.0.0.0:4001 --mysql-addr 0.0.0.0:4002 --postgres-addr 0.0.0.0:4003
     plugs: [network, network-bind]
+  gtctl:
+    command: gtctl
